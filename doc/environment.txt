@@ -1,0 +1,65 @@
+This machine implements a very simple user-mode risc-v environment, with a handful of simple system calls
+
+
+Memory Handling:
+    The risc-v spec calls for a flat memory address spaces with 2 ^ XLEN addresses. However, in this implementation
+    all memory past the "break" will be unitialized. The behavior to reading from, or writing to, addresses above 
+    the break will result in undefined behavior. Depending on the implementation, reading from or writing to these
+    addresses may either result in garbage values or in a segmentation fault.
+
+Memory Map:
+    Reset Vector:   0x0000_0000
+    Default Break:  0x0000_0000 + size_of_binary
+
+System Calls:
+    Registers:
+        a0-a1 (x10-11) -> Used to return values from a
+        system call
+
+        a2 (x12) -> System Call number, used to indicate
+        what system call will be executed
+
+        a3-7 (x13-17) -> System call arguments, used to
+        pass values to system call
+
+    Example:
+        li a2, 0x1
+        ecall
+
+    System Calls:
+        0x0:
+            Increase (or decrease) the system break by the number a 32-bit words as indicated by
+            the value in a3 (x13)
+
+            Example:
+                li a2, 0x0
+                li a3, 0x32
+                ecall
+
+                ; Extends the break by 0x32 words
+
+            
+        0x1:
+            Load the address of the current break into a0
+
+            Example:
+                li a2, 0x1
+                ecall
+        
+                ;a0 now contains the address of the break
+
+        0x2:
+            Print the utf-32 encoded in a3 to the console
+
+            li a3, 'λ'
+            li a2, 0x2
+            ecall
+
+            ;Prints 'λ' to the console
+
+Ebreak: The execution of the ebreak instruction will result in the current
+hart halting. Once all harts have halted, the emulator will exit
+
+Control Status Registers: 
+    The current implementation does not support the use of any control status registers. However, those
+    may be implemented in the future
