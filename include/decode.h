@@ -5,6 +5,7 @@
 
 uint32_t MaskBits(uint32_t i, uint8_t start_bit, uint8_t end_bit);
 uint32_t IndexBits(uint32_t i, uint8_t start_bit, uint8_t end_bit);
+uint32_t SignExtend(uint32_t base, uint32_t sign, uint8_t start);
 
 uint32_t I_Imm(uint32_t i);
 uint32_t S_Imm(uint32_t i);

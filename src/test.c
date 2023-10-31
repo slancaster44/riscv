@@ -1,6 +1,6 @@
 #include "testing.h"
 #include "hart.h"
-#include "instruction.h"
+#include "decode.h"
 
 void TestRegister32() {
     Hart h; 
@@ -59,10 +59,47 @@ void TestExtractions() {
     TEST(result == expect, "Funct7 Extraction");
 }
 
+void TestImmediates() {
+    uint32_t result = SignExtend(0x3, 0, 25); 
+    uint32_t expect = 0x3;
+    TEST(result == expect, "Zero extend");
+
+    result = SignExtend(0x3, 1, 25);
+    expect = 0xFE000003;
+    TEST(result == expect, "Sign extend");
+
+    uint32_t addi_x1_x0_neg1 = 0xfff00093;
+    result = I_Imm(addi_x1_x0_neg1);
+    expect = (unsigned) -1;
+    TEST(result == expect, "I_Imm Extraction");
+
+    uint32_t sb_x17_neg1_x19 = 0xff198fa3;
+    result = S_Imm(sb_x17_neg1_x19);
+    expect = (unsigned) -1;
+    TEST(result == expect, "S_Imm Extraction");
+
+    uint32_t bne_x17_x19_neg2 = 0xff389fe3;
+    result = B_Imm(bne_x17_x19_neg2);
+    expect = (unsigned) -2;
+    TEST(result == expect, "B_Imm Extraction");
+
+    uint32_t lui_x17_neg1 = 0xfffff8b7;
+    result = U_Imm(lui_x17_neg1);
+    expect = 0xFFFFF000;
+    TEST(result == expect, "U_Imm Extraction");
+
+    uint32_t jal_x17_neg2 = 0xfffff8ef;
+    result = J_Imm(jal_x17_neg2);
+    expect = (unsigned) -2;
+    TEST(result == expect, "J_Imm Extraction");
+
+}
+
 int main() {
     TestRegister32();
     TestMaskBits();
     TestExtractions();
+    TestImmediates();
     return 0;
 
 }

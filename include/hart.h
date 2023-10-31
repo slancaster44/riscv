@@ -1,7 +1,11 @@
 #ifndef HART_H
 #define HART_H
 
-#include "data.h"
+#include <stdint.h>
+
+typedef struct {
+    uint32_t Integer32;
+} Register;
 
 typedef struct {
     Register registers[31];
