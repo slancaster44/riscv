@@ -22,6 +22,11 @@ uint32_t SignExtend(uint32_t base, uint32_t sign, uint8_t start) {
     return base | sign_mask;
 }
 
+uint64_t SignExtend64(uint32_t base) {
+    uint64_t sign_mask = IndexBits(base, 31, 31) ? 0xFFFFFFFF : 0x0;
+    return base | (sign_mask << 32);
+}
+
 uint32_t I_Imm(uint32_t i) {
     uint32_t imm = IndexBits(i, 20, 30);
     uint32_t sign = IndexBits(i, 31, 31);

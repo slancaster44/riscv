@@ -1,6 +1,12 @@
 #include "hart.h"
 #include <string.h>
 
+Hart NewHart() {
+    Hart h;
+    memset(&h, 0, sizeof(Hart));
+    return h;
+}
+
 uint32_t ReadRegister32(Hart* h, uint8_t register_number) {
     uint32_t output;
 

@@ -1,6 +1,8 @@
 #include "testing.h"
 #include "hart.h"
 #include "decode.h"
+#include "environment.h"
+#include "exec.h"
 
 void TestRegister32() {
     Hart h; 
@@ -68,6 +70,14 @@ void TestImmediates() {
     expect = 0xFE000003;
     TEST(result == expect, "Sign extend");
 
+    uint64_t result64 = SignExtend64(0xF);
+    uint64_t expect64 = 0xF;
+    TEST(result64 == expect64, "Zero extend 64");
+
+    result64 = SignExtend64(0xFFFFFFFF);
+    expect64 = (uint64_t) -1;
+    TEST(result64 == expect64, "Sign extend 64");
+
     uint32_t addi_x1_x0_neg1 = 0xfff00093;
     result = I_Imm(addi_x1_x0_neg1);
     expect = (unsigned) -1;
@@ -95,11 +105,24 @@ void TestImmediates() {
 
 }
 
+void TestInstructions() {
+    Hart h = NewHart();
+    uint32_t code[] = {0xfffff8b7, 0xfff00093,  0x4138d0b3};
+    InitializeMemory(&code[0], sizeof(code));
+
+    for (int i = 0; i < (sizeof(code) / sizeof(code[0])); i++) {
+        ExecIns(&h);
+    }    
+
+    CleanupMemory();
+}
+
 int main() {
     TestRegister32();
     TestMaskBits();
     TestExtractions();
     TestImmediates();
+    TestInstructions();
     return 0;
 
 }

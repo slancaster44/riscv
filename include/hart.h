@@ -9,9 +9,11 @@ typedef union {
 } Register;
 
 typedef struct {
-    Register registers[32];
+    Register registers[31];
     Register PC;
 } Hart;
+
+Hart NewHart();
 
 uint32_t ReadRegister32(Hart* h, uint8_t register_number);
 void  WriteRegister32(Hart* h, uint8_t register_number, uint32_t v);
