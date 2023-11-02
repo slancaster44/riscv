@@ -2,7 +2,7 @@
 
 #include "exec.h"
 #include "environment.h"
-#include "decode.h"
+#include "decoding.h"
 
 void ExecIns(Hart* h) {
     uint32_t* mem = GetMemory();
@@ -13,6 +13,6 @@ void ExecIns(Hart* h) {
 
     uint8_t op = Opcode(instruction);
     switch (op) {
-        
+
     }
 }

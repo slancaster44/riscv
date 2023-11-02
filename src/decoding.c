@@ -1,4 +1,4 @@
-#include "decode.h"
+#include "decoding.h"
 
 /* All the stuff in this file will make since if you read the
  * RV32I section in the risc-v manual

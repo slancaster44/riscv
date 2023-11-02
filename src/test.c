@@ -1,6 +1,6 @@
 #include "testing.h"
 #include "hart.h"
-#include "decode.h"
+#include "decoding.h"
 #include "environment.h"
 #include "exec.h"
 
