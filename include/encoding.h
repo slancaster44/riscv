@@ -35,15 +35,15 @@
 #define SR_FUNCT7 0b0100000
 
 #define ARITH_IMM_OP 0b0010011
-#define ADDI_FUNCT3 0b000
-#define SLTI_FUNCT3 0b010
-#define SLTIU_FUNCT3 0b011
-#define XORI_FUNCT3 0b100
-#define ORI_FUNCT3 0b110
-#define ANDI_FUNCT3 0b111
-#define SLLI_FUNCT3 0b001
-#define SRLI_FUNCT3 0b101
-#define SRAI_FUNCT3 0b101
+#define ADDI_FUNCT3 0b000   // 64
+#define SLTI_FUNCT3 0b010   // 64
+#define SLTIU_FUNCT3 0b011  // 64
+#define XORI_FUNCT3 0b100   // 64
+#define ORI_FUNCT3 0b110    // 64
+#define ANDI_FUNCT3 0b111   // 64
+#define SLLI_FUNCT3 0b001   // 64
+#define SRLI_FUNCT3 0b101   // 64
+#define SRAI_FUNCT3 0b101   // 64
 
 #define ARITH32_IMM_OP 0b0011011
 #define ARITH32_REG_OP 0b0111011

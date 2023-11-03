@@ -4,8 +4,8 @@ First Register Loads
 
 Then Math Operations
     All ARITH_REG
-    All ARITH32_REG
     All ARITH_IMM
+    All ARITH32_REG
     All ARITH32_IMM
 
 Then Jump Operations
