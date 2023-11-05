@@ -48,17 +48,17 @@
 #define ARITH32_IMM_OP 0b0011011
 #define ARITH32_REG_OP 0b0111011
 
-#define ARITH_REG_OP 0b0110011
-#define ADD_FUNCT3 0b000
-#define SUB_FUNCT3 0b000
-#define SLL_FUNCT3 0b001
-#define SLT_FUNCT3 0b010
-#define SLTU_FUNCT3 0b011
-#define XOR_FUNCT3 0b100
-#define SRL_FUNCT3 0b101
-#define SRA_FUNCT3 0b101
-#define OR_FUNCT3 0b110
-#define AND_FUNCT3 0b111
+#define ARITH_REG_OP 0b0110011 
+#define ADD_FUNCT3 0b000    //64
+#define SUB_FUNCT3 0b000    //64
+#define SLL_FUNCT3 0b001    //64
+#define SLT_FUNCT3 0b010    //64
+#define SLTU_FUNCT3 0b011   //64
+#define XOR_FUNCT3 0b100    //64
+#define SRL_FUNCT3 0b101    //64
+#define SRA_FUNCT3 0b101    //64
+#define OR_FUNCT3 0b110     //64
+#define AND_FUNCT3 0b111    //64
 
 #define FENCE_OP 0b0001111
 #define FENCE_FUNCT3 0b000

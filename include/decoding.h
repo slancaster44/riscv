@@ -2,9 +2,26 @@
 #define INS_H
 
 #include <stdint.h>
+#include "hart.h"
+
+typedef void(*InstructionFunction)(Hart*, uint32_t);
+
+typedef struct {
+    uint8_t bit;
+    struct DecodingNode* Left; //0
+    struct DecodingNode* Right; //1
+    struct DecodingNode* Neutral; //it doesn't matter
+    InstructionFunction insFn;
+} DecodingNode;
+
+DecodingNode* NewNode();
+void FreeNode(DecodingNode* n);
+InstructionFunction Lookup(DecodingNode* dn, uint32_t ins);
+void AddInstruction(DecodingNode* root, const char* pattern, InstructionFunction insfn);
 
 uint32_t MaskBits(uint32_t i, uint8_t start_bit, uint8_t end_bit);
 uint32_t IndexBits(uint32_t i, uint8_t start_bit, uint8_t end_bit);
+uint8_t IndexBit(uint32_t i, uint8_t bit);
 uint32_t SignExtend(uint32_t base, uint32_t sign, uint8_t start);
 uint64_t SignExtend64(uint32_t base);
 

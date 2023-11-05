@@ -34,6 +34,14 @@ void TestMaskBits()
     result = MaskBits(test, 31, 31);
     expect = 0x80000000;
     TEST(result == expect, "Bit Index: 31")
+
+    result = IndexBit(0b1000, 3);
+    expect = 1;
+    TEST(result == expect, "Bit Index, single index");
+
+    result = IndexBit(0b1110, 0);
+    expect = 0;
+    TEST(result == expect, "Bit Index, 0th index");
 }
 
 void TestExtractions()
@@ -196,6 +204,25 @@ void TestArith()
     TEST(!ReadRegister64(&h, 3), "sltu");
 }
 
+void TestDecodingTree() {
+    DecodingNode* root = NewNode();
+    AddInstruction(root, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx0", (InstructionFunction) 1);
+    AddInstruction(root, "xxxxxxxxxxx0xxxxxxxxxxxxxxxxxx01", (InstructionFunction) 2);
+    AddInstruction(root, "xxxxxxxxxxx1xxxxxxxxxxxxxxxxxx01", (InstructionFunction) 3);
+
+    uint64_t result = (uint64_t) Lookup(root, 0x00000000);
+    uint64_t expect = 1;
+    TEST(result == expect, "Decoding Lookup (1)");
+
+    result = (uint64_t) Lookup(root, 0x1);
+    expect = 2;
+    TEST(result == expect, "Decoding Lookup (2)");
+
+    result = (uint64_t) Lookup(root, 0xF031E1C9);
+    expect = 3;
+    TEST(result == expect, "Decoding Lookup (3)");
+}
+
 int main()
 {
     TestRegister32();
@@ -203,6 +230,7 @@ int main()
     TestExtractions();
     TestImmediates();
     TestArith();
+    TestDecodingTree();
     PrintTestSummary();
     return 0;
 }
