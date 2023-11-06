@@ -5,8 +5,18 @@ First Register Loads
 Then Math Operations
     All ARITH_REG
     All ARITH_IMM
-    All ARITH32_REG
-    All ARITH32_IMM
+    All ARITH32_REG & IMM
+        Addiw
+        slliw
+        srliw
+        sraiw
+        lui (upgrade)
+        auipc (upgrade)
+        addw
+        sllw
+        srlw
+        subw
+        sraw
 
 Then Jump Operations
     JAL

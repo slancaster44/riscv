@@ -202,6 +202,18 @@ void TestArith()
     uint32_t sltu_test[] = {0xfe000093, 0x00400113, 0x0020b1b3};
     RUN(h, sltu_test);
     TEST(!ReadRegister64(&h, 3), "sltu");
+
+    uint32_t addiw_test[] = {0xfd89889b};
+    RUN(h, addiw_test);
+    TEST(ReadRegister32(&h, 17) == -40, "addiw");
+
+    uint32_t sraiw_test[] = {0xff80809b, 0x4010d09b};
+    RUN(h, sraiw_test);
+    TEST(ReadRegister32(&h, 1) == -4, "sraiw");
+
+    uint32_t auipc_test[] = {0x000c8097};
+    RUN(h, auipc_test);
+    TEST(ReadRegister64(&h, 1) == 0x000c8000, "auipc");
 }
 
 void TestDecodingTree() {
@@ -225,12 +237,12 @@ void TestDecodingTree() {
 
 int main()
 {
+    TestDecodingTree();
     TestRegister32();
     TestMaskBits();
     TestExtractions();
     TestImmediates();
     TestArith();
-    TestDecodingTree();
     PrintTestSummary();
     return 0;
 }
