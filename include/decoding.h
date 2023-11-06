@@ -10,7 +10,6 @@ typedef struct {
     uint8_t bit;
     struct DecodingNode* Left; //0
     struct DecodingNode* Right; //1
-    struct DecodingNode* Neutral; //it doesn't matter
     InstructionFunction insFn;
 } DecodingNode;
 

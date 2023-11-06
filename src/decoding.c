@@ -1,6 +1,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
 #include "decoding.h"
 
 /* All the stuff in this file will make since if you read the
@@ -108,7 +109,7 @@ void AddInstruction(DecodingNode* root, const char* pattern, InstructionFunction
 
     for (int i = 31; i >= 0; i--) {
         char curBit = pattern[i];
-        curNode->bit = i;
+        curNode->bit = 31 - i;
 
         if (curBit == '0') {
             if (curNode->Left == NULL) {
@@ -123,12 +124,6 @@ void AddInstruction(DecodingNode* root, const char* pattern, InstructionFunction
             }
 
             curNode = (DecodingNode*) curNode->Right;
-        } else {
-            if (curNode->Neutral == NULL) {
-                curNode->Neutral = (struct DecodingNode*) NewNode();
-            }
-
-            curNode = (DecodingNode*) curNode->Neutral;
         }
     }
 
@@ -136,15 +131,17 @@ void AddInstruction(DecodingNode* root, const char* pattern, InstructionFunction
 }
 
 InstructionFunction Lookup(DecodingNode* dn, uint32_t ins) {
-    for (int i = 0; i < 32; i++) {
-        uint8_t bit = IndexBit(ins, i);
+    while (true) {
+        if (dn->insFn != NULL) {
+            return dn->insFn;
+        }
+
+        uint8_t bit = IndexBit(ins, dn->bit);
 
         if (dn->Left != NULL && bit == 0) {
             dn = (DecodingNode*) dn->Left;
         } else if (dn->Right != NULL && bit == 1) {
             dn = (DecodingNode*) dn->Right;
-        } else if (dn->Neutral != NULL) {
-            dn = (DecodingNode*) dn->Neutral;
         } else {
             printf("Panic! At the incomplete decoding tree (probably an illegal instruction)\n");
             printf("Instruction: 0x%08X\n", ins);
@@ -158,9 +155,9 @@ InstructionFunction Lookup(DecodingNode* dn, uint32_t ins) {
 void FreeNode(DecodingNode* n) {
     if (n->Left != NULL) {
         FreeNode((DecodingNode*) n->Left);
-    } else if (n->Neutral != NULL) {
-        FreeNode((DecodingNode*) n->Neutral);
-    } else if (n->Right != NULL) {
+    } 
+    
+    if (n->Right != NULL) {
         FreeNode((DecodingNode*) n->Right);
     }
 
